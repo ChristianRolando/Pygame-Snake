@@ -11,11 +11,11 @@ BG1 = (156, 210, 54)
 BG2 = (147, 203, 57)
 
 # Player
-player_pos_x = WIDTH / 2
-player_pos_y = HEIGHT / 2
+player_pos_x = WIDTH / 2 
+player_pos_y = HEIGHT / 2 
 player_vel_x = 0 
 player_vel_y = 0 
-movement_speed = 200
+movement_speed = 250
 
 # Food
 food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
@@ -61,21 +61,24 @@ while running:
     draw_background(screen)
     
     player_head = pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (PIXELS, PIXELS)])
+    player_body = pygame.draw.rect(screen, "black", [(player_pos_x - PIXELS, player_pos_y), (PIXELS, PIXELS)])
+    
+    
     
     #Player Movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         player_vel_x = 0
-        player_vel_y = -movement_speed * dt 
+        player_vel_y = -movement_speed * dt
     if keys[pygame.K_s]:
         player_vel_x = 0
-        player_vel_y = movement_speed * dt 
+        player_vel_y = movement_speed * dt
     if keys[pygame.K_a]:
         player_vel_y = 0
-        player_vel_x = -movement_speed * dt 
+        player_vel_x = -movement_speed * dt
     if keys[pygame.K_d]:
         player_vel_y = 0
-        player_vel_x = movement_speed * dt 
+        player_vel_x = movement_speed * dt
 
     player_pos_x += player_vel_x 
     player_pos_y += player_vel_y 
@@ -92,7 +95,7 @@ while running:
         player_pos_y = HEIGHT - PIXELS
         
     #Food Handling
-    spawn_food(screen, food_pos_x, food_pos_y) 
+    spawn_food(screen, food_pos_x, food_pos_y)   
     distance_head_food = math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
     if distance_head_food < 10:
         score_value += 1
