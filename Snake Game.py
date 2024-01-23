@@ -94,7 +94,7 @@ while running:
     #Food Handling
     spawn_food(screen, food_pos_x, food_pos_y) 
     distance_head_food = math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
-    if distance_head_food < 10:
+    if distance_head_food < PIXELS:
         score_value += 1
         draw_background(screen)
         food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
