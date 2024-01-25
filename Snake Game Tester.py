@@ -11,13 +11,10 @@ BG1 = (156, 210, 54)
 BG2 = (147, 203, 57)
 
 # Player
-player_vel_x = 0
-player_vel_y = 0
-player_pos_x = 240
-player_pos_y = 240
+player_vel_x = 1
+player_vel_y = 0 
 movement_speed = 250
-snake_segments = [(player_pos_x, player_pos_y), (208, 240), (176, 240)]
-current_direction = " "
+snake_segments = [(240, 240), (208, 240), (176, 240)]   #head is pos at (240, 240), body starts at (208,240)
 
 # Food
 food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
@@ -53,6 +50,7 @@ def draw_scoreboard(screen, score_value, x, y):
 def spawn_food(screen, x, y):
     pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
     
+
 # Game Program Loop
 while running:
     for event in pygame.event.get():
@@ -61,40 +59,50 @@ while running:
             
     draw_background(screen)
     
-    pygame.draw.rect(screen, "purple", [(player_pos_x, player_pos_y), (PIXELS, PIXELS)])
+    #Updaste snake head position
+    head = snake_segments[0]
+    new_head = (head[0] + player_vel_x * 32, head[1] + player_vel_y * 32)
+    snake_segments = [new_head] + snake_segments[:-1]
     
-    #Player Movement
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w] and current_direction != "s":
-        player_vel_x = 0
-        player_vel_y = -movement_speed * dt
-        current_direction = "w"
-    if keys[pygame.K_s] and current_direction != "w":
-        player_vel_x = 0
-        player_vel_y = movement_speed * dt
-        current_direction = "s"
-    if keys[pygame.K_a] and current_direction != "d":
-        player_vel_y = 0
-        player_vel_x = -movement_speed * dt
-        current_direction = "a"
-    if keys[pygame.K_d] and current_direction != "a":
-        player_vel_y = 0
-        player_vel_x = movement_speed * dt
-        current_direction = "d"
-        
-    player_pos_x += player_vel_x 
-    player_pos_y += player_vel_y 
+    for i in range(1, len(snake_segments)):
+        snake_segments[i] = snake_segments[i - 1]
     
-    #Boundaries
-    if player_pos_x <= 0:
-        player_pos_x = 0
-    elif player_pos_x >= WIDTH - PIXELS:
-        player_pos_x = WIDTH - PIXELS
+    pygame.draw.rect(screen, "purple", [(head), (PIXELS, PIXELS)])
+    pygame.draw.rect(screen, "red", [(new_head), (PIXELS, PIXELS)])
+    
+   # Player Movement
+keys = pygame.key.get_pressed()
+if keys[pygame.K_w]:
+    player_vel_x = 0
+    player_vel_y = -movement_speed * dt
+if keys[pygame.K_s]:
+    player_vel_x = 0
+    player_vel_y = movement_speed * dt
+if keys[pygame.K_a]:
+    player_vel_y = 0
+    player_vel_x = -movement_speed * dt
+if keys[pygame.K_d]:
+    player_vel_y = 0
+    player_vel_x = movement_speed * dt
 
-    if player_pos_y <= 0:
-        player_pos_y = 0
-    elif player_pos_y >= HEIGHT - PIXELS:
-        player_pos_y = HEIGHT - PIXELS
+# Update snake head position
+head = snake_segments[0]
+new_head = (head[0] + player_vel_x * PIXELS, head[1] + player_vel_y * PIXELS)
+snake_segments = [new_head] + snake_segments[:-1]
+
+# Boundaries
+if new_head[0] <= 0:
+    new_head = (0, new_head[1])
+elif new_head[0] >= WIDTH - PIXELS:
+    new_head = (WIDTH - PIXELS, new_head[1])
+
+if new_head[1] <= 0:
+    new_head = (new_head[0], 0)
+elif new_head[1] >= HEIGHT - PIXELS:
+    new_head = (new_head[0], HEIGHT - PIXELS)
+
+# Rest of the code remains the same...
+
         
     #Food Handling
     spawn_food(screen, food_pos_x, food_pos_y)   
