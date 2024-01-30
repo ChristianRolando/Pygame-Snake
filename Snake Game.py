@@ -15,9 +15,10 @@ player_vel_x = 0
 player_vel_y = 0
 player_pos_x = 240
 player_pos_y = 240
-movement_speed = 250
-snake_segments = [(player_pos_x, player_pos_y), (208, 240), (176, 240)]
+movement_speed = 400
 current_direction = " "
+snake_body = [[player_pos_x, player_pos_y],[208, player_pos_y], [176, player_pos_y]]
+update_seg = 0
 
 # Food
 food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
@@ -53,15 +54,39 @@ def draw_scoreboard(screen, score_value, x, y):
 def spawn_food(screen, x, y):
     pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
     
+def snake_update(snake_body, player_pos_x, player_pos_y):
+    new_head = [player_pos_x, player_pos_y]
+    
+    snake_body.insert(0, new_head)
+    snake_body.pop()
+    
+def snake_draw(snake_body):
+    for i in snake_body:
+        pygame.draw.rect(screen, "purple", [(i), (PIXELS, PIXELS)])
+        
+def snake_directional(current_direction, snake_body):
+    if current_direction == 'd':
+        update_seg = [snake_body[-1][0] - 32, snake_body[-1][1]]
+    if current_direction == 'a':
+        update_seg = [snake_body[-1][0] + 32, snake_body[-1][1]]
+    if current_direction == 'w':
+        update_seg = [snake_body[-1][0], snake_body[-1][1] - 32]
+    if current_direction == 's':
+        update_seg = [snake_body[-1][0], snake_body[-1][1] + 32]
+    return update_seg
+    
 # Game Program Loop
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-            
+    
+    #Draw the background     
     draw_background(screen)
     
-    pygame.draw.rect(screen, "purple", [(player_pos_x, player_pos_y), (PIXELS, PIXELS)])
+    #Head of snake drawn
+    # pygame.draw.rect(screen, "purple", [(player_pos_x, player_pos_y), (PIXELS, PIXELS)])
+    snake_draw(snake_body)
     
     #Player Movement
     keys = pygame.key.get_pressed()
@@ -85,6 +110,12 @@ while running:
     player_pos_x += player_vel_x 
     player_pos_y += player_vel_y 
     
+    snake_update(snake_body, player_pos_x, player_pos_y)
+    
+    # for i in range(len(snake_body)):
+    #     print("snake: , ith: ", i, snake_body[i])   
+    # print(snake_body)
+
     #Boundaries
     if player_pos_x <= 0:
         player_pos_x = 0
@@ -101,6 +132,7 @@ while running:
     distance_head_food = math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
     if distance_head_food < PIXELS:
         score_value += 1
+        snake_body.append(snake_directional(current_direction, snake_body))
         draw_background(screen)
         food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
         food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
@@ -110,6 +142,6 @@ while running:
 
     pygame.display.flip()
     
-    dt = clock.tick(60) / 1000
+    dt = clock.tick(30) / 1000
 
 pygame.quit()
