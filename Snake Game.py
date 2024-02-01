@@ -143,5 +143,7 @@ while running:
     pygame.display.flip()
     
     dt = clock.tick(30) / 1000
+    
+    #blah blah
 
 pygame.quit()
