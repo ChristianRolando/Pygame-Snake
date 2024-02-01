@@ -6,7 +6,7 @@ class Snake:
     def __init__(self, name):
         self.player_vel_x = 0
         self.player_vel_y = 0
-        self.current_direction = " "
+        self.current_direction = "d"
         self.movement_speed = 250
         self.player_pos_x = 240
         self.player_pos_y = 240

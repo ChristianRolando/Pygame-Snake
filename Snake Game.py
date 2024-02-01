@@ -99,11 +99,17 @@ while running:
     #Food Handling
     spawn_food(screen, food_pos_x, food_pos_y) 
     distance_head_food = math.sqrt(pow(food_pos_x - snake.player_pos_x, 2) + pow(food_pos_y - snake.player_pos_y, 2))
-    if distance_head_food < PIXELS:
+    
+    #Check if food is close to head
+    if distance_head_food < PIXELS: 
         score_value += 1
         snake.movement_speed += 10
         snake.snake_body.append(snake.snake_directional())
+        
+        #Update the food rectangle
         pygame.display.update(food_rect)
+        
+        #Respawn the food
         food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
         food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
         spawn_food(screen, food_pos_x, food_pos_y)
@@ -112,6 +118,6 @@ while running:
 
     pygame.display.flip()
     
-    dt = clock.tick(30) / 1000
+    dt = clock.tick(35) / 1000
 
 pygame.quit()
