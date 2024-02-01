@@ -17,6 +17,7 @@ snake = Snake("Player 1")
 # Food
 food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
 food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
+food_rect = pygame.Rect(food_pos_x, food_pos_y, PIXELS, PIXELS)
 
 # Pygame Setup
 pygame.init()
@@ -46,9 +47,8 @@ def draw_scoreboard(screen, score_value, x, y):
     screen.blit(score, (x, y))
 
 def spawn_food(screen, x, y):
-    pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
+     pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
     
-
 # Game Program Loop
 while running:
     for event in pygame.event.get():
@@ -85,24 +85,25 @@ while running:
     
     snake.snake_update()
     
-    #Boundaries
-    if snake.player_pos_x <= 0:
-        snake.player_pos_x = 0
-    elif snake.player_pos_x >= WIDTH - PIXELS:
-        snake.player_pos_x = WIDTH - PIXELS
+    #Boundaries      
+    if snake.player_pos_x <= (-PIXELS / 2): #Left x coord
+        pygame.quit()
+    elif snake.player_pos_x >= WIDTH - (PIXELS / 2): #Right x coord
+        pygame.quit()
 
-    if snake.player_pos_y <= 0:
-        snake.player_pos_y = 0
-    elif snake.player_pos_y >= HEIGHT - PIXELS:
-        snake.player_pos_y = HEIGHT - PIXELS
+    if snake.player_pos_y <= (-PIXELS / 2): #Top y coord
+        pygame.quit()
+    elif snake.player_pos_y >= HEIGHT - (PIXELS / 2): #Bottom y coord
+        pygame.quit()
         
     #Food Handling
-    spawn_food(screen, food_pos_x, food_pos_y)   
+    spawn_food(screen, food_pos_x, food_pos_y) 
     distance_head_food = math.sqrt(pow(food_pos_x - snake.player_pos_x, 2) + pow(food_pos_y - snake.player_pos_y, 2))
     if distance_head_food < PIXELS:
         score_value += 1
+        snake.movement_speed += 10
         snake.snake_body.append(snake.snake_directional())
-        draw_background(screen)
+        pygame.display.update(food_rect)
         food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
         food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
         spawn_food(screen, food_pos_x, food_pos_y)
