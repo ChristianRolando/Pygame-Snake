@@ -103,8 +103,8 @@ while running:
         score_value += 1
         snake.snake_body.append(snake.snake_directional())
         draw_background(screen)
-        food_pos_x , food_pos_y = get_food_pos(snake.snake_body)
-       
+        food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
+        food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
         spawn_food(screen, food_pos_x, food_pos_y)
 
     draw_scoreboard(screen, score_value, scoreboard_x_coord, scoreboard_y_coord)

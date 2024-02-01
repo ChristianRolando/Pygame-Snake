@@ -18,11 +18,12 @@
 
 - *Movement (According to length):* The snake's head points in the direction of key presses, while remaining segments follow suit. Movement remains constant in one direction, requiring another key press to change direction.
 
-**To Do**
-
 - *Segmentation:* Implement a function that recognizes when the snake eats food, adding a new segment of the same size as the head to follow the head's movement.
 
+**To Do**
 - *Endgame conditions:* Define conditions for the game to end, such as the snake touching itself or the game boundaries. A `player_death()` function could be triggered when the distance between the head and body or head and boundaries reaches a certain value.
 
 - *Restart button:* Create a simple restart button that resets the game to its default settings.
+
+-*Refinements*: Head/Body Collision, Food can't spawn inside body, Gridlocked movement
 
