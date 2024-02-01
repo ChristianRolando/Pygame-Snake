@@ -47,13 +47,7 @@ def draw_scoreboard(screen, score_value, x, y):
 
 def spawn_food(screen, x, y):
     pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
-
-def get_food_pos(snake_body):
-    while True:
-        x = random.randint(0, WIDTH - PIXELS)
-        y = random.randint(0, WIDTH - PIXELS)
-        if [x, y] not in snake_body:
-            return x, y
+    
 
 # Game Program Loop
 while running:
@@ -117,6 +111,7 @@ while running:
 
     pygame.display.flip()
     
+    dt = clock.tick(30) / 1000
     dt = clock.tick(30) / 1000
 
 pygame.quit()
