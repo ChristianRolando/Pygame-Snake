@@ -46,8 +46,13 @@ def draw_scoreboard(screen, score_value, x, y):
     score = font.render("Score: " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x, y))
 
-def spawn_food(screen, x, y):
-     pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
+def spawn_food(screen, x, y, snake_body):
+     if(x,y) not in snake_body:
+        pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
+     else:
+       x = random.randrange(0, WIDTH - PIXELS, 32)
+       y = random.randrange(0, HEIGHT - PIXELS, 32)
+       pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
     
 # Game Program Loop
 while running:
@@ -97,7 +102,8 @@ while running:
         pygame.quit()
         
     #Food Handling
-    spawn_food(screen, food_pos_x, food_pos_y) 
+    spawn_food(screen, food_pos_x, food_pos_y, snake.snake_body)
+         
     distance_head_food = math.sqrt(pow(food_pos_x - snake.player_pos_x, 2) + pow(food_pos_y - snake.player_pos_y, 2))
     
     #Check if food is close to head
@@ -112,7 +118,9 @@ while running:
         #Respawn the food
         food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
         food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
-        spawn_food(screen, food_pos_x, food_pos_y)
+        
+        #Draw food again
+        spawn_food(screen, food_pos_x, food_pos_y, snake.snake_body)
 
     draw_scoreboard(screen, score_value, scoreboard_x_coord, scoreboard_y_coord)
 

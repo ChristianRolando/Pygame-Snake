@@ -25,5 +25,5 @@
 
 - *Restart button:* Create a simple restart button that resets the game to its default settings.
 
--*Refinements*: Head/Body Collision, Food can't spawn inside body, Gridlocked movement
+-*Refinements*: Head/Body Collision, Food can't spawn inside body (BUG), Gridlocked movement
 
