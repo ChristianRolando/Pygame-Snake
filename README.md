@@ -14,7 +14,7 @@
 
 - *Randomized food spread:* When the player touches food, the food disappears, and new food generates. The solution involves using the Distance formula to calculate the distance between the player's head and the food. Upon collision, the background redraws, and the food's position regenerates randomly.
 
-- *Counter (Points):* The counter changes with each food item eaten by the player. It's calculated by checking when the head is within 15 pixels of the food. If so, 1 is added to the score counter.
+- *Counter (Points):* The counter changes with each food item eaten by the player. It's calculated by checking when the head is within 15 screen.get_screen_pixels of the food. If so, 1 is added to the score counter.
 
 - *Movement (According to length):* The snake's head points in the direction of key presses, while remaining segments follow suit. Movement remains constant in one direction, requiring another key press to change direction.
 

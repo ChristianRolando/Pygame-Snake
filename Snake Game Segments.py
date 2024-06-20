@@ -1,1 +1,0 @@
-snake_segment = [[0, 0]]
