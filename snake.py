@@ -56,3 +56,14 @@ class Snake(metaclass = Singleton):
             self.update_seg = [self.snake_body[-1][0], self.snake_body[-1][1] + 32]
         print(f"Snake direction updated to: {self.current_direction}, segment: {self.update_seg}")
         return self.update_seg
+            
+    def check_snake_collide_with_self(self, score):
+        """Check if the snake collides with itself."""
+        if score > 5:
+            head = self.snake_body[0].rect  # Assuming each segment has a 'rect' attribute
+            for segment in self.snake_body[2:]:  # Skip the square immediately following the head
+                if head.colliderect(segment.rect):
+                    print("Snake collided with itself!")
+                    return False
+            print("Snake did not collide with itself!")
+        return True

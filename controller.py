@@ -12,7 +12,11 @@ class Controller(metaclass = Singleton):
     
     def __init__(self):
         print("Initializing Controller")
+        # how does dt work?
+        # 
         self.dt = 0
+        
+        
         pygame.init()
         self.food = Food()
         self.screen = Screen()
@@ -22,6 +26,17 @@ class Controller(metaclass = Singleton):
         self.scoreboard = ScoreBoard()
         self.ate = False
         print(f"dt: {self.dt}, run_status: {self.run_status}, clock: {self.clock}")
+    
+    def set_run_status(self, status):
+        print(f"Setting run status to {status}")
+        self.run_status = status
+        
+    def get_run_status(self):
+        return self.run_status
+    
+    def get_dt(self):
+        print("Getting dt")
+        return self.dt
     
     def set_name(self, name):
         print(f"Setting name to {name}")
@@ -35,9 +50,6 @@ class Controller(metaclass = Singleton):
         print("Drawing background")
         self.screen.get_screen().fill(self.screen.BG1)
         counter = 0  
-        
-        #checkered background
-    # checkered background
         for row in range(self.screen.get_squares()):
             for col in range(self.screen.get_squares()):
                 if counter % 2 == 0:
@@ -49,6 +61,7 @@ class Controller(metaclass = Singleton):
     def track_player_movement(self):
         print("Tracking player movement")
         keys = pygame.key.get_pressed()
+        print("--------\nself.dt: ", self.dt)
         if keys[pygame.K_w] and self.snake.current_direction != "s":
             self.snake.player_vel_x = 0
             self.snake.player_vel_y = - self.snake.movement_speed * self.dt
