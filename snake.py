@@ -14,11 +14,11 @@ class Snake(metaclass = Singleton):
         self.movement_speed = 280
         self.x_cord = 240
         self.y_cord = 240
-        self.snake_body = [[self.x_cord, self.y_cord],
+        self.snake_cord = [[self.x_cord, self.y_cord],
                            [208, self.y_cord],
                            [176, self.y_cord]]
-        print(f"Snake initialized at position: {self.snake_body[0]}")
-  
+        print(f"Snake initialized at position: {self.snake_cord[0]}")
+       
     def get_x_cord(self):
         return self.x_cord
     
@@ -34,35 +34,36 @@ class Snake(metaclass = Singleton):
     def snake_update(self):
         """Update the position of the snake."""
         new_head = [self.x_cord, self.y_cord]
-        self.snake_body.insert(0, new_head)
-        self.snake_body.pop()
-        print(f"Snake updated to position: {self.snake_body[0]}")
+        self.snake_cord.insert(0, new_head)
+        self.snake_cord.pop()
+        print(f"Snake updated to position: {self.snake_cord[0]}")
     
     def snake_draw(self):
         """Draw the snake on the screen."""
-        for i in self.snake_body:
+        for i in self.snake_cord:
             pygame.draw.rect(self.screen.get_screen(), "purple", [(i), (self.screen.get_screen_pixels(), self.screen.get_screen_pixels())])
-        print(f"Snake drawn at positions: {self.snake_body}")
+        print(f"Snake drawn at positions: {self.snake_cord}")
              
     def snake_directional(self):
         """Update the direction of the snake based on the current direction."""
         if self.current_direction == 'd':
-            self.update_seg = [self.snake_body[-1][0] - 32, self.snake_body[-1][1]]
+            self.update_seg = [self.snake_cord[-1][0] - 32, self.snake_cord[-1][1]]
         elif self.current_direction == 'a':
-            self.update_seg = [self.snake_body[-1][0] + 32, self.snake_body[-1][1]]
+            self.update_seg = [self.snake_cord[-1][0] + 32, self.snake_cord[-1][1]]
         elif self.current_direction == 'w':
-            self.update_seg = [self.snake_body[-1][0], self.snake_body[-1][1] - 32]
+            self.update_seg = [self.snake_cord[-1][0], self.snake_cord[-1][1] - 32]
         elif self.current_direction == 's':
-            self.update_seg = [self.snake_body[-1][0], self.snake_body[-1][1] + 32]
+            self.update_seg = [self.snake_cord[-1][0], self.snake_cord[-1][1] + 32]
         print(f"Snake direction updated to: {self.current_direction}, segment: {self.update_seg}")
         return self.update_seg
             
     def check_snake_collide_with_self(self, score):
         """Check if the snake collides with itself."""
         if score > 5:
-            head = self.snake_body[0].rect  # Assuming each segment has a 'rect' attribute
-            for segment in self.snake_body[2:]:  # Skip the square immediately following the head
-                if head.colliderect(segment.rect):
+            head = pygame.Rect(self.snake_cord[0][0], self.snake_cord[0][1], self.screen.get_screen_pixels(), self.screen.get_screen_pixels())
+            for segment in self.snake_cord[2:]:
+                segment_rect = pygame.Rect(segment[0], segment[1], self.screen.get_screen_pixels(), self.screen.get_screen_pixels())
+                if head.colliderect(segment_rect):
                     print("Snake collided with itself!")
                     return False
             print("Snake did not collide with itself!")

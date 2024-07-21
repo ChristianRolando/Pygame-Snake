@@ -20,16 +20,13 @@ class Food(metaclass = Singleton):
         return self.x_cord
 
     # Setter for x_cord
-    
     def set_x_cord(self, x):
         self.x_cord = x
-
 
     def get_y_cord(self):
         return self.y_cord
 
     # Setter for y_cord
-    
     def set_y_cord(self, y):
         self.y_cord = y
 

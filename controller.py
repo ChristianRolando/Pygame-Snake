@@ -12,11 +12,7 @@ class Controller(metaclass = Singleton):
     
     def __init__(self):
         print("Initializing Controller")
-        # how does dt work?
-        # 
         self.dt = 0
-        
-        
         pygame.init()
         self.food = Food()
         self.screen = Screen()
@@ -83,7 +79,6 @@ class Controller(metaclass = Singleton):
         self.snake.set_x_cord(self.snake.get_x_cord() + self.snake.player_vel_x)
         self.snake.set_y_cord(self.snake.get_y_cord() + self.snake.player_vel_y )
 
-            
     def update_player_pos(self):
         print("Updating player position")
         self.x_cord += self.player_vel_x 
@@ -107,15 +102,9 @@ class Controller(metaclass = Singleton):
     
     def spawn_food(self):
         print("Spawning food")
-        # If the current food position is in the snake body, generate a new position
-    
         pygame.draw.rect(self.screen.get_screen(), "red", [(self.food.x_cord, self.food.y_cord), (self.screen.get_screen_pixels(), self.screen.get_screen_pixels())])
         self.ate = False
-        # else:
-        #     self.food.set_x_cord(random.randrange(0,  self.screen.get_screen_width() - self.screen.get_screen_pixels(), 32))
-        #     self.food.set_y_cord(random.randrange(0, self.screen.get_screen_height() - self.screen.get_screen_pixels(), 32))
-        #     pygame.draw.rect(self.screen.get_screen(), "red", [(self.food.x_cord, self.food.y_cord), (self.screen.get_screen_pixels(), self.screen.get_screen_pixels())])
-            
+
     def check_food(self):
         print("Checking food")
         distance = self.get_distance()
@@ -123,7 +112,7 @@ class Controller(metaclass = Singleton):
             print("Food eaten")
             self.scoreboard.score += 1
             self.snake.movement_speed += 10
-            self.snake.snake_body.append(self.snake.snake_directional())
+            self.snake.snake_cord.append(self.snake.snake_directional())
             #Update the food rectangle
             self.screen.update(self.food._shape)
             
@@ -132,8 +121,5 @@ class Controller(metaclass = Singleton):
             self.food.y_cord = random.randrange(0, self.screen.get_screen_height() - self.screen.get_screen_pixels(), 32)
             #Draw food again
             self.ate = True
-            self.spawn_food()
-        
-            
-            
+            self.spawn_food()    
         print(f"distance: {distance}, score: {self.scoreboard.score}, movement_speed: {self.snake.movement_speed}")
